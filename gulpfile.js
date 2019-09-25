@@ -11,6 +11,8 @@ const AWS_SECRET_ACCESS_KEY = isStaging ? process.env.STG_AWS_SECRET_ACCESS_KEY 
 const AWS_CLOUDFRONT = isStaging ? process.env.STG_AWS_CLOUDFRONT : process.env.AWS_CLOUDFRONT
 const AWS_DEFAULT_REGION = isStaging ? process.env.STG_AWS_DEFAULT_REGION : process.env.AWS_DEFAULT_REGION
 
+console.log(AWS_BUCKET_NAME)
+
 // https://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html
 const config = {
 
