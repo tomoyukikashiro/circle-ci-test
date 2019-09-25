@@ -1,0 +1,24 @@
+{
+  "name": "hoge",
+  "version": "1.0.0",
+  "description": "My superb Nuxt.js project",
+  "author": "tomoyukikashiro",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "deploy": "gulp deploy"
+  },
+  "dependencies": {
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {
+    "concurrent-transform": "^1.0.0",
+    "gulp": "^4.0.2",
+    "gulp-awspublish": "^4.0.0",
+    "gulp-cloudfront-invalidate-aws-publish": "^1.0.0",
+    "merge-stream": "^2.0.0"
+  }
+}
