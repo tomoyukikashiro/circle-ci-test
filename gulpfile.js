@@ -3,22 +3,29 @@ const awspublish = require('gulp-awspublish');
 const cloudfront = require('gulp-cloudfront-invalidate-aws-publish');
 const parallelize = require('concurrent-transform');
 const merge = require('merge-stream');
+const isStaging = process.env.NODE_ENV === 'staging'
+
+const AWS_BUCKET_NAME = isStaging ? process.env.STG_AWS_BUCKET_NAME : process.env.AWS_BUCKET_NAME
+const AWS_ACCESS_KEY_ID = isStaging ? process.env.STG_AWS_ACCESS_KEY_ID : process.env.AWS_ACCESS_KEY_ID
+const AWS_SECRET_ACCESS_KEY = isStaging ? process.env.STG_AWS_SECRET_ACCESS_KEY : process.env.AWS_SECRET_ACCESS_KEY
+const AWS_CLOUDFRONT = isStaging ? process.env.STG_AWS_CLOUDFRONT : process.env.AWS_CLOUDFRONT
+const AWS_DEFAULT_REGION = isStaging ? process.env.STG_AWS_DEFAULT_REGION : process.env.AWS_DEFAULT_REGION
 
 // https://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html
 const config = {
 
   // 必須
   params: {
-    Bucket: process.env.AWS_BUCKET_NAME
+    Bucket: AWS_BUCKET_NAME
   },
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
     signatureVersion: 'v3'
   },
 
-  distribution: process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
-  region: process.env.AWS_DEFAULT_REGION,
+  distribution: AWS_CLOUDFRONT, // CloudFront distribution ID
+  region: AWS_DEFAULT_REGION,
 
   // 適切なデフォルト値 - これらのファイル及びディレクトリは gitignore されている
   distDir: 'dist',
@@ -62,7 +69,7 @@ gulp.task('deploy', function() {
   }
 
   // 削除したファイルを同期する
-  if (process.env.NODE_ENV !== 'production') g = g.pipe(publisher.sync());
+  if (isStaging) g = g.pipe(publisher.sync());
   // アップロードの更新をコンソールに出力する
   g = g.pipe(awspublish.reporter());
   return g;
