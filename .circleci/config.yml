@@ -38,17 +38,21 @@ jobs:
 
   deploy-staging:
     <<: *defaults
+    environment:
+      NODE_ENV: staging
     steps:
       - attach_workspace:
           at: ~/repo
-      - run: NODE_ENV=staging npm run generate && npm run deploy
+      - run: npm run generate && npm run deploy
 
   deploy-production:
     <<: *defaults
+    environment:
+      NODE_ENV: production
     steps:
       - attach_workspace:
           at: ~/repo
-      - run: NODE_ENV=production npm run generate && npm run deploy
+      - run: npm run generate && npm run deploy
 
 workflows:
   version: 2
